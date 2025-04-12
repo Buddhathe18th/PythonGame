@@ -17,7 +17,15 @@ while run:
     print(deltaTime)
     
     key=pygame.key.get_pressed()
-    player.update(key,deltaTime)
+    print(key)
+
+    allObjects=[]
+    allObjects.append(player)
+    for obj in allObjects:
+        obj.update(key,deltaTime)
+
+    
+    # player.update(key,deltaTime)
 
     # if key[pygame.K_LEFT]:
     #     player.move_ip(-1*deltaTime,0)
