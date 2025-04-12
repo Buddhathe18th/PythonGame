@@ -1,20 +1,20 @@
 import pygame
 
 class Interactable:
-    def __init__(self, container, x, y, width, height):
+    def __init__(self, container,x, y, width, height,subItems=[]):
         self.container = container
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
+        self.subItems = subItems
     
     def update(self):
         self.container.update()
         self.container.fill((0,0,0))
         pygame.draw.rect(self.container, (255, 0, 0), self.rect)
         # self.container.blit(self.image, self.rect)
-        pygame.display.update()
         
     
     # def draw(self, screen):
@@ -27,16 +27,19 @@ class Interactable:
         return self.rect.collidepoint(x, y) 
 
 class Player(Interactable):
-    def __init__(self, container, x, y, width, height,speed):
-        super().__init__(container, x, y, width, height)
+    def __init__(self, container, x, y, width, height,speed,velocityX,velocityY,subItems=[]):
+        super().__init__(container, x, y, width, height,subItems)
         self.speed = speed
+        self.velocityX = velocityX
+        self.velocityY = velocityY
 
     def update(self,key,deltaTime):
         self.move(key,deltaTime)
+
+        # TODO: add refresh for container
         self.container.fill((0,0,0))
         pygame.draw.rect(self.container, (255, 0, 0), self.rect)
         # self.container.blit(self.image, self.rect)
-        pygame.display.update()
         
 
     def move(self,key,deltaTime):
