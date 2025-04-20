@@ -34,20 +34,35 @@ class Player(Interactable):
         self.velocityY = velocityY
 
     def update(self,key,deltaTime):
-        self.move(key,deltaTime)
+        self.readInputs(key)
+        self.move(deltaTime)
+
 
         # TODO: add refresh for container
         self.container.fill((0,0,0))
         pygame.draw.rect(self.container, (255, 0, 0), self.rect)
         # self.container.blit(self.image, self.rect)
-        
-
-    def move(self,key,deltaTime):
+    
+    def readInputs(self,key):
         if key[pygame.K_LEFT]:
-            self.rect.move_ip(-deltaTime*self.speed,0)
+            self.velocityX=self.velocityX-self.speed
         elif key[pygame.K_RIGHT]:
-            self.rect.move_ip(deltaTime*self.speed,0)
-        elif key[pygame.K_UP]:
-            self.rect.move_ip(0,-deltaTime*self.speed)
+            self.velocityX=self.velocityX+self.speed
+
+        if key[pygame.K_UP]:
+            self.velocityY=self.velocityY+self.speed
         elif key[pygame.K_DOWN]:
-            self.rect.move_ip(0,deltaTime*self.speed)
+            self.velocityY=self.velocityY-self.speed
+        
+    def move(self,deltaTime):
+        self.rect.move_ip(self.velocityX*deltaTime,self.velocityY*deltaTime)
+
+        if self.velocityX > 0:
+            self.velocityX = self.velocityX-0.1
+        elif self.velocityX < 0:
+            self.velocityX = self.velocityX+0.1
+
+        if self.velocityY > 0:
+            self.velocityY = self.velocityY-0.1
+        elif self.velocityY < 0:
+            self.velocityY = self.velocityY+0.1
