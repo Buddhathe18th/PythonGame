@@ -1,4 +1,5 @@
 import pygame
+import time
 from helper import *
 
 pygame.init()
@@ -9,7 +10,7 @@ gameClock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("World Generation")
 
-player=Player(screen,100,100,10,10,(255,0,0), 0.1,0,0)
+player=Player(screen,100,100,10,10,(255,0,0), 0.96,0,0)
 
 run=True
 while run:
@@ -23,6 +24,18 @@ while run:
     screen.fill((0,0,0))
     for obj in allObjects:
         obj.update(key,deltaTime)
+        for other in allObjects:
+            if obj == other:
+                continue
+            if obj.collides(other):
+                print("Collision")
+                obj.reset()
+                break
+
+    player.update(key,deltaTime)
+    # time.sleep(0.001)
+    
+    
 
     
     # player.update(key,deltaTime)

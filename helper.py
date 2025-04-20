@@ -10,11 +10,14 @@ class Interactable:
         self.colour = colour
         self.rect = pygame.Rect(x, y, width, height)
         self.subItems = subItems
+        self.previousPosition = self.rect.copy()
     
     def update(self,key,deltaTime):
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
-        
+    
+    def reset(self):
+        self.rect = self.previousPosition.copy()
     
     # def draw(self, screen):
     #     pass
@@ -35,10 +38,14 @@ class Player(Interactable):
     def update(self,key,deltaTime):
         self.readInputs(key)
         self.move(deltaTime)
+
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
-    
-    def readInputs(self,key):
+    def reset(self):
+        self.velocityX=0
+        self.velocityY=0
+        return super().reset()
+    def readInputsGradual(self,key):
         if key[pygame.K_LEFT]:
             self.velocityX=self.velocityX-self.speed
         elif key[pygame.K_RIGHT]:
@@ -49,9 +56,24 @@ class Player(Interactable):
         elif key[pygame.K_DOWN]:
             self.velocityY=self.velocityY+self.speed
 
+    def readInputs(self,key):
+        if key[pygame.K_LEFT]:
+            self.velocityX=-1*self.speed
+        elif key[pygame.K_RIGHT]:
+            self.velocityX=+self.speed
+        else:
+            self.velocityX=0
+
+        if key[pygame.K_UP]:
+            self.velocityY=-self.speed
+        elif key[pygame.K_DOWN]:
+            self.velocityY=+self.speed
+        else:
+            self.velocityY=0
         
         
-    def move(self,deltaTime):
+    def moveGradual(self,deltaTime):
+        self.previousPosition = self.rect.copy()
 
         # If our speed is too high, we want to cap it
         maxSpeed = 2
@@ -77,3 +99,9 @@ class Player(Interactable):
             self.velocityY = self.velocityY-max(self.speed*0.9,0.1*self.velocityY)
         elif self.velocityY < 0:
             self.velocityY = self.velocityY+max(self.speed*0.9,0.1*self.velocityY)
+
+    def move(self,deltaTime):
+        self.previousPosition = self.rect.copy()
+        self.rect.move_ip(self.velocityX*deltaTime,self.velocityY*deltaTime)
+
+
