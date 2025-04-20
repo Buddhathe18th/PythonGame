@@ -1,19 +1,18 @@
 import pygame
 
 class Interactable:
-    def __init__(self, container,x, y, width, height,subItems=[]):
+    def __init__(self, container,x, y, width, height, colour, subItems=[]):
         self.container = container
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.colour = colour
         self.rect = pygame.Rect(x, y, width, height)
         self.subItems = subItems
     
-    def update(self):
-        self.container.update()
-        self.container.fill((0,0,0))
-        pygame.draw.rect(self.container, (255, 0, 0), self.rect)
+    def update(self,key,deltaTime):
+        pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
         
     
@@ -27,8 +26,8 @@ class Interactable:
         return self.rect.collidepoint(x, y) 
 
 class Player(Interactable):
-    def __init__(self, container, x, y, width, height,speed,velocityX,velocityY,subItems=[]):
-        super().__init__(container, x, y, width, height,subItems)
+    def __init__(self, container, x, y, width, height, colour, speed,velocityX,velocityY,subItems=[]):
+        super().__init__(container, x, y, width, height, colour, subItems)
         self.speed = speed
         self.velocityX = velocityX
         self.velocityY = velocityY
@@ -36,11 +35,7 @@ class Player(Interactable):
     def update(self,key,deltaTime):
         self.readInputs(key)
         self.move(deltaTime)
-
-
-        # TODO: add refresh for container
-        self.container.fill((0,0,0))
-        pygame.draw.rect(self.container, (255, 0, 0), self.rect)
+        pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
     
     def readInputs(self,key):
@@ -59,7 +54,7 @@ class Player(Interactable):
     def move(self,deltaTime):
 
         # If our speed is too high, we want to cap it
-        maxSpeed = 0.5
+        maxSpeed = 2
 
         if self.velocityX > maxSpeed:
             self.velocityX = maxSpeed
