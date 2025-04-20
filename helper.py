@@ -50,19 +50,35 @@ class Player(Interactable):
             self.velocityX=self.velocityX+self.speed
 
         if key[pygame.K_UP]:
-            self.velocityY=self.velocityY+self.speed
-        elif key[pygame.K_DOWN]:
             self.velocityY=self.velocityY-self.speed
+        elif key[pygame.K_DOWN]:
+            self.velocityY=self.velocityY+self.speed
+
+        
         
     def move(self,deltaTime):
+
+        # If our speed is too high, we want to cap it
+        maxSpeed = 0.5
+
+        if self.velocityX > maxSpeed:
+            self.velocityX = maxSpeed
+        elif self.velocityX < -maxSpeed:
+            self.velocityX = -maxSpeed
+
+        if self.velocityY > maxSpeed:
+            self.velocityY = maxSpeed
+        elif self.velocityY < -maxSpeed:
+            self.velocityY = -maxSpeed
+
         self.rect.move_ip(self.velocityX*deltaTime,self.velocityY*deltaTime)
 
         if self.velocityX > 0:
-            self.velocityX = self.velocityX-0.1
+            self.velocityX = self.velocityX-max(self.speed*0.9,0.1*self.velocityX)
         elif self.velocityX < 0:
-            self.velocityX = self.velocityX+0.1
+            self.velocityX = self.velocityX+max(self.speed*0.9,0.1*self.velocityX)
 
         if self.velocityY > 0:
-            self.velocityY = self.velocityY-0.1
+            self.velocityY = self.velocityY-max(self.speed*0.9,0.1*self.velocityY)
         elif self.velocityY < 0:
-            self.velocityY = self.velocityY+0.1
+            self.velocityY = self.velocityY+max(self.speed*0.9,0.1*self.velocityY)

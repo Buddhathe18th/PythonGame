@@ -9,7 +9,7 @@ gameClock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("World Generation")
 
-player=Player(screen,100,100,10,10,0.11,0,0,)
+player=Player(screen,100,100,10,10,0.1,0,0,)
 
 run=True
 while run:
