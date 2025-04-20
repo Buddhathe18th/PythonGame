@@ -17,7 +17,6 @@ while run:
     print(deltaTime)
     
     key=pygame.key.get_pressed()
-    print(key)
 
     allObjects=[]
     allObjects.append(player)
