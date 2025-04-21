@@ -12,7 +12,7 @@ class Interactable:
         self.subItems = subItems
         self.previousPosition = self.rect.copy()
     
-    def update(self,key,deltaTime):
+    def update(self,key,deltaTime,collided=False,collidedObject=None):
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
     
@@ -35,16 +35,28 @@ class Player(Interactable):
         self.velocityX = velocityX
         self.velocityY = velocityY
 
-    def update(self,key,deltaTime):
-        self.readInputs(key)
-        self.moveX(deltaTime)
+    def update(self,key,deltaTime,collided=False,collidedObject=None):
+        if not collided:
+            self.readInputs(key)
+            self.move(deltaTime)
 
-        pygame.draw.rect(self.container, self.colour, self.rect)
+            pygame.draw.rect(self.container, self.colour, self.rect)
+        else:
+            self.readInputs(key)
+            self.moveX(deltaTime)
+            if self.collides(collidedObject):
+                self.reset()
+            self.moveY(deltaTime)
+            if self.collides(collidedObject):
+                self.reset()
+            pygame.draw.rect(self.container, self.colour, self.rect)
+            
         # self.container.blit(self.image, self.rect)
     def reset(self):
         self.velocityX=0
         self.velocityY=0
         return super().reset()
+    
     def readInputsGradual(self,key):
         if key[pygame.K_LEFT]:
             self.velocityX=self.velocityX-self.speed

@@ -24,14 +24,14 @@ while run:
     allObjects.append(Interactable(screen,300,300,100,100,(0,255,0)))
     screen.fill((0,0,0))
     for obj in allObjects:
-        obj.update(key,deltaTime,False)
+        obj.update(key,deltaTime)
         for other in allObjects:
             if obj == other:
                 continue
             if obj.collides(other):
                 print("Collision")
                 obj.reset()
-                # obj.update(key,deltaTime,True)
+                obj.update(key,deltaTime,True,other)
                 break
 
     # player.update(key,deltaTime)
