@@ -18,7 +18,7 @@ class Interactable:
     
     def reset(self):
         self.rect = self.previousPosition.copy()
-    
+        pygame.draw.rect(self.container, self.colour, self.rect)
     # def draw(self, screen):
     #     pass
 
@@ -26,7 +26,7 @@ class Interactable:
         return self.rect.colliderect(other.rect)
     
     def collides_point(self, x, y):
-        return self.rect.collidepoint(x, y) 
+        return self.rect.collidepoint(int(x), int(y)) 
 
 class Player(Interactable):
     def __init__(self, container, x, y, width, height, colour, speed,velocityX,velocityY,subItems=[]):
@@ -88,7 +88,9 @@ class Player(Interactable):
         elif self.velocityY < -maxSpeed:
             self.velocityY = -maxSpeed
 
-        self.rect.move_ip(self.velocityX*deltaTime,self.velocityY*deltaTime)
+        self.x+=self.velocityX*deltaTime
+        self.y+=self.velocityY*deltaTime
+        self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
 
         if self.velocityX > 0:
             self.velocityX = self.velocityX-max(self.speed*0.9,0.1*self.velocityX)
@@ -102,6 +104,8 @@ class Player(Interactable):
 
     def move(self,deltaTime):
         self.previousPosition = self.rect.copy()
-        self.rect.move_ip(self.velocityX*deltaTime,self.velocityY*deltaTime)
+        self.x+=self.velocityX*deltaTime
+        self.y+=self.velocityY*deltaTime
+        self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
 
 

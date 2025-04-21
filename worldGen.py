@@ -10,11 +10,12 @@ gameClock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("World Generation")
 
-player=Player(screen,100,100,10,10,(255,0,0), 0.96,0,0)
+player=Player(screen,100,100,10,10,(255,0,0), 0.1,0,0)
 
 run=True
 while run:
-    deltaTime = gameClock.tick()
+    # deltaTime = gameClock.tick()
+    deltaTime=1
     
     key=pygame.key.get_pressed()
 
@@ -32,7 +33,7 @@ while run:
                 obj.reset()
                 break
 
-    player.update(key,deltaTime)
+    # player.update(key,deltaTime)
     # time.sleep(0.001)
     
     
