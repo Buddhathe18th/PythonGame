@@ -18,9 +18,9 @@ class Interactable:
     
     def reset(self):
         self.rect = self.previousPosition.copy()
+        self.x=self.previousPosition.x
+        self.y=self.previousPosition.y
         pygame.draw.rect(self.container, self.colour, self.rect)
-    # def draw(self, screen):
-    #     pass
 
     def collides(self, other):
         return self.rect.colliderect(other.rect)
@@ -37,7 +37,7 @@ class Player(Interactable):
 
     def update(self,key,deltaTime):
         self.readInputs(key)
-        self.move(deltaTime)
+        self.moveX(deltaTime)
 
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
@@ -103,8 +103,14 @@ class Player(Interactable):
             self.velocityY = self.velocityY+max(self.speed*0.9,0.1*self.velocityY)
 
     def move(self,deltaTime):
+        self.moveX(deltaTime)
+        self.moveY(deltaTime)
+    def moveX(self,deltaTime):
         self.previousPosition = self.rect.copy()
         self.x+=self.velocityX*deltaTime
+        self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
+    def moveY(self,deltaTime):
+        self.previousPosition = self.rect.copy()
         self.y+=self.velocityY*deltaTime
         self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
 
