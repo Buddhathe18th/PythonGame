@@ -24,21 +24,21 @@ while run:
     allObjects.append(Interactable(screen,300,300,100,100,(0,255,0)))
     screen.fill((0,0,0))
     for obj in allObjects:
-        obj.update(key,deltaTime)
-        for other in allObjects:
-            if obj == other:
-                continue
-            if obj.collides(other):
-                print("Current position is: ", end="")
-                print(obj.x,obj.y)
-                print(other.x,other.y)
-                obj.reset()
-                print("After resetting,  ", end="")
-                print(obj.x,obj.y)
-                print()
-                print()
-                obj.update(key,deltaTime,True,other)
-                break
+        obj.update(key,deltaTime,allObjects)
+        # for other in allObjects:
+        #     if obj == other:
+        #         continue
+        #     if obj.collides(other):
+        #         print("Current position is: ", end="")
+        #         print(obj.x,obj.y)
+        #         print(other.x,other.y)
+        #         obj.reset()
+        #         print("After resetting,  ", end="")
+        #         print(obj.x,obj.y)
+        #         print()
+        #         print()
+        #         obj.update(key,deltaTime,True,other)
+        #         break
 
     # player.update(key,deltaTime)
     # time.sleep(0.001)

@@ -15,7 +15,7 @@ class Interactable:
         self.prevWidth = self.width
         self.prevHeight = self.height
     
-    def update(self,key,deltaTime,collided=False,collidedObject=None):
+    def update(self,key,deltaTime,objects):
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
     
@@ -30,6 +30,13 @@ class Interactable:
     def collides(self, other):
         return self.rect.colliderect(other.rect)
     
+    def collides_all(self, objects):
+        for obj in objects:
+            if obj!=self:
+                if self.rect.colliderect(obj.rect):
+                    return True
+        return False
+    
     def collides_point(self, x, y):
         return self.rect.collidepoint(int(x), int(y)) 
 
@@ -41,25 +48,29 @@ class Player(Interactable):
         self.velocityY = velocityY
         # TODO: Float-To-Int conversion for X and Y
 
-    def update(self,key,deltaTime,collided=False,collidedObject=None):
-        if not collided:
-            self.readInputs(key)
-            self.move(deltaTime)
-
-            pygame.draw.rect(self.container, self.colour, self.rect)
-        else:
+    def update(self,key,deltaTime,objects):
             self.readInputs(key)
             self.moveX(deltaTime)
-            if self.collides(collidedObject):
-                self.reset()
+            if self.collides_all(objects):
+                self.resetX()
             self.moveY(deltaTime)
-            if self.collides(collidedObject):
-                self.reset()
+            if self.collides_all(objects):
+                self.resetY()
             pygame.draw.rect(self.container, self.colour, self.rect)
+            
             
         # self.container.blit(self.image, self.rect)
     def reset(self):
         return super().reset()
+    
+    def resetX(self):
+        self.velocityX=0
+        self.x=self.prevX
+        self.rect=pygame.Rect(self.x,self.y,self.width,self.height)
+    def resetY(self):
+        self.velocityY=0
+        self.y=self.prevY
+        self.rect=pygame.Rect(self.x,self.y,self.width,self.height)
     
     def readInputsGradual(self,key):
         if key[pygame.K_LEFT]:
