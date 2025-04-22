@@ -25,37 +25,6 @@ while run:
     screen.fill((0,0,0))
     for obj in allObjects:
         obj.update(key,deltaTime,allObjects)
-        # for other in allObjects:
-        #     if obj == other:
-        #         continue
-        #     if obj.collides(other):
-        #         print("Current position is: ", end="")
-        #         print(obj.x,obj.y)
-        #         print(other.x,other.y)
-        #         obj.reset()
-        #         print("After resetting,  ", end="")
-        #         print(obj.x,obj.y)
-        #         print()
-        #         print()
-        #         obj.update(key,deltaTime,True,other)
-        #         break
-
-    # player.update(key,deltaTime)
-    # time.sleep(0.001)
-    
-    
-
-    
-    # player.update(key,deltaTime)
-
-    # if key[pygame.K_LEFT]:
-    #     player.move_ip(-1*deltaTime,0)
-    # if key[pygame.K_RIGHT]:
-    #     player.move_ip(deltaTime,0)
-    # if key[pygame.K_UP]:
-    #     player.move_ip(0,-1*deltaTime)
-    # if key[pygame.K_DOWN]:
-    #     player.move_ip(0,deltaTime) 
 
 
     for event in pygame.event.get():

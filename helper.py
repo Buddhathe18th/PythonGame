@@ -58,8 +58,7 @@ class Player(Interactable):
                 self.resetY()
             pygame.draw.rect(self.container, self.colour, self.rect)
             
-            
-        # self.container.blit(self.image, self.rect)
+    
     def reset(self):
         return super().reset()
     
