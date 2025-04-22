@@ -10,16 +10,21 @@ class Interactable:
         self.colour = colour
         self.rect = pygame.Rect(x, y, width, height)
         self.subItems = subItems
-        self.previousPosition = self.rect.copy()
+        self.prevX = self.x
+        self.prevY = self.y
+        self.prevWidth = self.width
+        self.prevHeight = self.height
     
     def update(self,key,deltaTime,collided=False,collidedObject=None):
         pygame.draw.rect(self.container, self.colour, self.rect)
         # self.container.blit(self.image, self.rect)
     
     def reset(self):
-        self.rect = self.previousPosition.copy()
-        self.x=self.previousPosition.x
-        self.y=self.previousPosition.y
+        self.rect = pygame.Rect(self.prevX, self.prevY, self.prevWidth, self.prevHeight)
+        self.x=self.prevX        
+        self.y=self.prevY
+        self.width=self.prevWidth
+        self.height=self.prevHeight
         pygame.draw.rect(self.container, self.colour, self.rect)
 
     def collides(self, other):
@@ -34,6 +39,7 @@ class Player(Interactable):
         self.speed = speed
         self.velocityX = velocityX
         self.velocityY = velocityY
+        # TODO: Float-To-Int conversion for X and Y
 
     def update(self,key,deltaTime,collided=False,collidedObject=None):
         if not collided:
@@ -53,8 +59,6 @@ class Player(Interactable):
             
         # self.container.blit(self.image, self.rect)
     def reset(self):
-        self.velocityX=0
-        self.velocityY=0
         return super().reset()
     
     def readInputsGradual(self,key):
@@ -82,10 +86,13 @@ class Player(Interactable):
             self.velocityY=+self.speed
         else:
             self.velocityY=0
+
+        if key[pygame.K_SPACE]:
+            pygame.draw.rect(self.container, (0,0,255), self.previousPosition)
         
         
     def moveGradual(self,deltaTime):
-        self.previousPosition = self.rect.copy()
+        self.previousPosition = pygame.Rect(self.prevX, self.prevY, self.prevWidth, self.prevHeight)
 
         # If our speed is too high, we want to cap it
         maxSpeed = 2
@@ -118,12 +125,12 @@ class Player(Interactable):
         self.moveX(deltaTime)
         self.moveY(deltaTime)
     def moveX(self,deltaTime):
-        self.previousPosition = self.rect.copy()
+        self.prevX=self.x
         self.x+=self.velocityX*deltaTime
-        self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
+        self.rect=pygame.Rect(self.x,self.y,self.width,self.height)
     def moveY(self,deltaTime):
-        self.previousPosition = self.rect.copy()
+        self.prevY=self.y
         self.y+=self.velocityY*deltaTime
-        self.rect=pygame.Rect(int(self.x),int(self.y),self.width,self.height)
+        self.rect=pygame.Rect(self.x,self.y,self.width,self.height)
 
 

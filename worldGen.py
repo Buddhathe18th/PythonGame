@@ -29,8 +29,14 @@ while run:
             if obj == other:
                 continue
             if obj.collides(other):
-                print("Collision")
+                print("Current position is: ", end="")
+                print(obj.x,obj.y)
+                print(other.x,other.y)
                 obj.reset()
+                print("After resetting,  ", end="")
+                print(obj.x,obj.y)
+                print()
+                print()
                 obj.update(key,deltaTime,True,other)
                 break
 
